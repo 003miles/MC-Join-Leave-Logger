@@ -2,6 +2,7 @@ from config import config
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 import time
 import os
@@ -23,7 +24,9 @@ def main():
     #   Config
     options = Options()
     options.headless = config['headless']
-    driver = webdriver.Chrome('./chromedriver', options=options)
+    # driver = webdriver.Chrome('./chromedriver', options=options)
+    driver = webdriver.Chrome(ChromeDriverManager().install(),
+                              options=options)
 
     email = config['email']
     password = config['password']
@@ -41,7 +44,8 @@ def main():
         '//*[@id="app-mount"]/div[2]/div/div[2]/div/div/form/div/div/div[1]/div[3]/div[1]/div/div[2]/input').send_keys(
         email)
     driver.find_element_by_xpath(
-        '//*[@id="app-mount"]/div[2]/div/div[2]/div/div/form/div/div/div[1]/div[3]/div[2]/div/input').send_keys(password)
+        '//*[@id="app-mount"]/div[2]/div/div[2]/div/div/form/div/div/div[1]/div[3]/div[2]/div/input').send_keys(
+        password)
     driver.find_element_by_xpath(
         '//*[@id="app-mount"]/div[2]/div/div[2]/div/div/form/div/div/div[1]/div[3]/button[2]').click()
     print('Logged in.')
@@ -151,6 +155,7 @@ def main():
         df.to_csv(fileName, index=False, encoding='utf-8')
 
     print('See LOGS folder for csv sheets.')
+
 
 if __name__ == '__main__':
     main()
