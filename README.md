@@ -10,6 +10,6 @@ Works via discord server which relays in-game chat.
 
 ## Run the script
 
-  1. Edit the [config.py](config.py) file to your preferences.
+  1. Edit the [config.py](config.py) file to your preferences
   2. Install dependencies:   ```pip install -r requirements.txt```
   3. Run [main.py](main.py): `python main.py`
