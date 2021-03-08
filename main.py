@@ -96,8 +96,8 @@ def main():
                 except:
                     break
 
-            msg = driver.find_element_by_xpath(f'//*[@id="search-results-{index}"]/div/div/div[2]').get_attribute(
-                'innerText')
+            msg = driver.find_element_by_xpath(f'//*[@id="search-results-{index}"]').get_attribute(
+                'innerText').lower()
 
             if 'joined' in msg:
                 jL = 'Joined'
