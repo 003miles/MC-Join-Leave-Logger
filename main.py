@@ -19,12 +19,11 @@ def timeMe(method):
     return wrapper
 
 
-@timeMe
+# @timeMe
 def main():
     #   Config
     options = Options()
     options.headless = config['headless']
-    # driver = webdriver.Chrome('./chromedriver', options=options)
     driver = webdriver.Chrome(ChromeDriverManager().install(),
                               options=options)
 
@@ -48,6 +47,28 @@ def main():
         password)
     driver.find_element_by_xpath(
         '//*[@id="app-mount"]/div[2]/div/div[2]/div/div/form/div/div/div[1]/div[3]/button[2]').click()
+
+    # Captcha detection
+    try:
+        driver.find_elements_by_css_selector('#app-mount > div.app-1q1i1E > div > div.leftSplit-1qOwnR.nonEmbeddedLeftSplit-3z6mge > div')
+        if config['headless']:
+            return 'Captcha detected.\nRestart without headless mode.'
+        else:
+            print('Complete captcha.')
+
+            while True:
+                try:
+                    try:
+                        driver.find_element_by_xpath('//*[@id="app-mount"]/div[2]/div/div[2]/div/div/form/div/div/div[1]/div[3]/div[2]/h5/span')
+                        return 'Incorrect login details provided.'
+                    except:
+                        driver.find_element_by_xpath('//*[@id="app-mount"]/div[2]/div/div[2]/div/div/div/div/div[2]/section/div[2]/div[4]/div/div/div[1]/div[2]/div/div/div')
+                        break
+                except:
+                    continue
+    except:
+        pass
+
     print('Logged in.')
 
     #   Search for player join/leave logs
@@ -154,8 +175,8 @@ def main():
         os.makedirs(os.path.dirname(fileName), exist_ok=True)
         df.to_csv(fileName, index=False, encoding='utf-8')
 
-    print('See LOGS folder for csv sheets.')
+    return 'See LOGS folder for csv sheets.'
 
 
 if __name__ == '__main__':
-    main()
+    print(main())
